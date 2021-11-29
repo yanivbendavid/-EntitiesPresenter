@@ -7,8 +7,11 @@ import worldMap from "../assets/world.png";
 
 export default function Presenter(props) {
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState("");
 
   const mapEntities = async () => {
+    console.log(1);
+    setLoading(<LoadingSpinner />);
     const entities = await getEntities();
     const arr = [];
     for (const key in entities) {
@@ -16,6 +19,7 @@ export default function Presenter(props) {
       arr.push(entity);
     }
     setList(arr);
+    setLoading("");
   };
 
   const getData = useCallback(() => {
@@ -23,11 +27,8 @@ export default function Presenter(props) {
   }, []);
 
   const mapped =
-    list.length === 0 ? (
-      <LoadingSpinner />
-    ) : (
-      list.map((l) => <Entity entity={l} key={l.key} onReload={mapEntities} />)
-    );
+    list.length > 0 &&
+    list.map((l) => <Entity entity={l} key={l.key} onReload={mapEntities} />);
 
   useEffect(() => {
     getData();
@@ -35,6 +36,7 @@ export default function Presenter(props) {
 
   return (
     <div className={styles.worldMap}>
+      {loading}
       {mapped}
       <img alt="World Map" src={worldMap} />
     </div>
