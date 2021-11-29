@@ -13,9 +13,9 @@ export default function Presenter(props) {
     setLoading(<LoadingSpinner />);
     const entities = await getEntities();
     setList(
-      Object.keys(entities).map((entity) => {
-        return { key: entity, ...entities[entity] };
-      })
+      Object.keys(entities).map((entity) =>
+        Object.assign({ key: entity }, entities[entity])
+      )
     );
     setLoading("");
   };
