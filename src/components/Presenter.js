@@ -10,15 +10,13 @@ export default function Presenter(props) {
   const [loading, setLoading] = useState("");
 
   const mapEntities = async () => {
-    console.log(1);
     setLoading(<LoadingSpinner />);
     const entities = await getEntities();
-    const arr = [];
-    for (const key in entities) {
-      const entity = { key, ...entities[key] };
-      arr.push(entity);
-    }
-    setList(arr);
+    setList(
+      Object.keys(entities).map((entity) => {
+        return { key: entity, ...entities[entity] };
+      })
+    );
     setLoading("");
   };
 
