@@ -14,3 +14,18 @@ export async function getEntities() {
 
   return await request.json();
 }
+
+export async function deleteEntity(id) {
+  const request = await fetch(`${credentials.entity}${id}.json`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!request.ok) {
+    throw new Error("Error deleting data");
+  }
+
+  return await request;
+}
